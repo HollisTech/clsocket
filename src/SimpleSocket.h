@@ -73,7 +73,7 @@
 #include <fcntl.h>
 #endif
 
-#ifdef _WIN32
+#ifdef WIN32
 #include <io.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -155,6 +155,9 @@ public:
             delete [] m_pBuffer;
             m_pBuffer = NULL;
         }
+#ifdef WIN32
+        WSACleanup();
+#endif
     };
 
     /// Initialize instance of CSocket.  This method MUST be called before an
@@ -572,9 +575,6 @@ protected:
     struct sockaddr_in   m_stMulticastGroup;  /// multicast group to bind to
     struct linger        m_stLinger;          /// linger flag
     CStatTimer           m_timer;             /// internal statistics.
-#ifdef WIN32
-    WSADATA              m_hWSAData;          /// Windows
-#endif
     fd_set               m_writeFds;          /// write file descriptor set
     fd_set               m_readFds;           /// read file descriptor set
     fd_set               m_errorFds;          /// error file descriptor set

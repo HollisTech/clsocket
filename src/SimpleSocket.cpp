@@ -96,7 +96,7 @@ CSimpleSocket::CSimpleSocket(CSocketType nType) :
         m_nSocketDomain = AF_PACKET;
         m_nSocketType = CSimpleSocket::SocketTypeRaw;
 #endif
-#ifdef _WIN32
+#ifdef WIN32
         m_nSocketType = CSimpleSocket::SocketTypeInvalid;
 #endif
         break;
@@ -136,14 +136,6 @@ CSimpleSocket *CSimpleSocket::operator=(CSimpleSocket &socket)
 bool CSimpleSocket::Initialize()
 {
     errno = CSimpleSocket::SocketSuccess;
-
-#ifdef WIN32
-    //-------------------------------------------------------------------------
-    // Data structure containing general Windows Sockets Info
-    //-------------------------------------------------------------------------
-    memset(&m_hWSAData, 0, sizeof(m_hWSAData));
-    WSAStartup(MAKEWORD(2, 0), &m_hWSAData);
-#endif
 
     //-------------------------------------------------------------------------
     // Create the basic Socket Handle
